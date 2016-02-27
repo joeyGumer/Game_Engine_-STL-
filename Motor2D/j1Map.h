@@ -6,6 +6,9 @@
 #include "p2Point.h"
 #include "j1Module.h"
 
+#include <list>
+using namespace std;
+
 // ----------------------------------------------------
 struct Properties
 {
@@ -17,21 +20,21 @@ struct Properties
 
 	~Properties()
 	{
-		p2List_item<Property*>* item;
-		item = list.start;
+		list<Property*>::iterator item;
+		item = plist.begin();
 
-		while(item != NULL)
+		while(item != plist.end())
 		{
-			RELEASE(item->data);
-			item = item->next;
+			RELEASE(*item);
+			item++;
 		}
 
-		list.clear();
+		plist.clear();
 	}
 
 	int Get(const char* name, int default_value = 0) const;
 
-	p2List<Property*>	list;
+	list<Property*>	plist;
 };
 
 // ----------------------------------------------------
@@ -93,8 +96,8 @@ struct MapData
 	int					tile_height;
 	SDL_Color			background_color;
 	MapTypes			type;
-	p2List<TileSet*>	tilesets;
-	p2List<MapLayer*>	layers;
+	list<TileSet*>	tilesets;
+	list<MapLayer*>	layers;
 };
 
 // ----------------------------------------------------

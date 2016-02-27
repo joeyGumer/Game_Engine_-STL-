@@ -385,6 +385,7 @@ public:
 		}
 	}
 
+	/*
 	bool Fill(char c)
 	{
 		if (str != NULL)
@@ -398,7 +399,7 @@ public:
 			return true;
 		}
 		return false;
-	}
+	}*/
 private:
 
 	void Alloc(unsigned int requiered_memory)

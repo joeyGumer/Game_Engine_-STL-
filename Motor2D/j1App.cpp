@@ -42,6 +42,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(map);
+	//didn't pass it to STL , many changes to do, we'll se what we do with the pathfinding
 	AddModule(pathfinding);
 	AddModule(font);
 	AddModule(gui);

@@ -67,9 +67,9 @@ bool j1Audio::CleanUp()
 		Mix_FreeMusic(music);
 	}
 
-	p2List_item<Mix_Chunk*>* item;
-	for(item = fx.start; item != NULL; item = item->next)
-		Mix_FreeChunk(item->data);
+	list<Mix_Chunk*>::iterator item;
+	for(item = fx.begin(); item != fx.end(); ++item)
+		Mix_FreeChunk(*item);
 
 	fx.clear();
 
@@ -150,14 +150,15 @@ unsigned int j1Audio::LoadFx(const char* path)
 	}
 	else
 	{
-		fx.add(chunk);
-		ret = fx.count();
+		fx.push_back(chunk);
+		ret = fx.size();
 	}
 
 	return ret;
 }
 
 // Play WAV
+//Maybe i cause errors here, i can create a [] operator for here
 bool j1Audio::PlayFx(unsigned int id, int repeat)
 {
 	bool ret = false;
@@ -165,9 +166,17 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 	if(!active)
 		return false;
 
-	if(id > 0 && id <= fx.count())
+	if(id > 0 && id <= fx.size())
 	{
-		Mix_PlayChannel(-1, fx[id - 1], repeat);
+		Mix_Chunk* chunk = NULL;
+		list<Mix_Chunk*>::iterator item = fx.begin();
+
+		for (int i = 0; i < id; ++i, ++item)
+		{
+			chunk = *item;
+		}
+
+		Mix_PlayChannel(-1, chunk, repeat);
 	}
 
 	return ret;
